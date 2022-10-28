@@ -48,9 +48,24 @@ module.exports.details = (req, res, next) => {
 module.exports.displayEditPage = (req, res, next) => {
     
     // ADD YOUR CODE HERE
+    let id = req.params.id;
 
-    
-
+    TodoModel.findById(id, (err, TodoToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('todo/add_edit', {
+                title: 'Edit Item', 
+                todo: TodoToEdit,
+                userName: req.user ? req.user.username : ''
+            })
+        }
+    });
 }
 
 
@@ -68,14 +83,42 @@ module.exports.processEditPage = (req, res, next) => {
         complete: req.body.complete ? true : false
     });
 
-    // ADD YOUR CODE HERE
+    // ADD YOUR CODE HERE -OK
+    TodoModel.updateOne({_id: id}, updatedTodo, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // console.log(req.body);
+            // refresh the book list
+            res.redirect('/Todo/list');
+        }
+    });
 
 }
+
 
 // Deletes a todo based on its id.
 module.exports.performDelete = (req, res, next) => {
 
     // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+
+    TodoModel.remove({_id: id}, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/todo/list');
+        }
+    });
 
 }
 
@@ -113,7 +156,7 @@ module.exports.processAddPage = (req, res, next) => {
         }
         else
         {
-            // refresh the book list
+            // refresh the book list -addcode
             
             console.log(todo);
             res.redirect('/todo/list');

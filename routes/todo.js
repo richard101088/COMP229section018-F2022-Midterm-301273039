@@ -32,7 +32,7 @@ router.get('/add', todoController.displayAddPage);
 router.post('/add', todoController.processAddPage);
 
 
-// Delete
+// Delete -OK
 router.get('/delete/:id', todoController.performDelete);
 
 module.exports = router;
