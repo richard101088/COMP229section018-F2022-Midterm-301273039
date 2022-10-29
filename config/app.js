@@ -39,7 +39,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+// Sets up passport
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/todo', todoRouter);
